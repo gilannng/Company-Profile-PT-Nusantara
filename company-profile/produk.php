@@ -4,8 +4,8 @@ require_once __DIR__ . '/config/koneksi.php';
 $page_title  = "Produk & Layanan IT Enterprise - PT Digital Solusi Nusantara";
 $active_page = "produk";
 
-// Ambil semua data produk / layanan dari database
-$q_produk = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC");
+// Ambil semua data produk / layanan dari database (Urutkan dari yang terbaru ke terlama)
+$q_produk = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 
 // Metadata spesifikasi pendukung per produk (disesuaikan dengan standar industri IT profesional)
 $produk_meta = [

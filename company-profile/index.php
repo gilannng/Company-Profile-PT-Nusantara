@@ -8,8 +8,8 @@ $page_title  = "PT Digital Solusi Nusantara - Solusi Teknologi Digital Terpercay
 $q_profil = mysqli_query($koneksi, "SELECT * FROM profil LIMIT 1");
 $profil   = ($q_profil && mysqli_num_rows($q_profil) > 0) ? mysqli_fetch_assoc($q_profil) : null;
 
-// Ambil 3 layanan unggulan teratas
-$q_produk = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC LIMIT 3");
+// Ambil 3 layanan unggulan teratas (Urutkan dari yang terbaru)
+$q_produk = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC LIMIT 3");
 
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';

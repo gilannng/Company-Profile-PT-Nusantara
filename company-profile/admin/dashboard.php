@@ -15,7 +15,7 @@ $total_pesan   = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM pesan"))
 $unread_pesan  = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM pesan WHERE status = 'Belum Dibaca'"));
 
 // Ambil Daftar Layanan untuk Tabel Kelola Cepat
-$q_layanan_table = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC");
+$q_layanan_table = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id DESC");
 // Ambil 5 Pesan Terkini (Read-Only)
 $q_pesan_recent = mysqli_query($koneksi, "SELECT * FROM pesan ORDER BY id DESC LIMIT 5");
 ?>
