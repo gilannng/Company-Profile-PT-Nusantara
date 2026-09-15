@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+      <defs>
+        <linearGradient id="grad_60b8ba3b807befdf8bc4658f1d5db759" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1E3E62"/>
+          <stop offset="100%" stop-color="#0B192C"/>
+        </linearGradient>
+      </defs>
+      <rect width="600" height="400" fill="url(#grad_60b8ba3b807befdf8bc4658f1d5db759)"/>
+      <rect x="20" y="20" width="560" height="360" rx="16" fill="none" stroke="#00D2FF" stroke-width="2" stroke-dasharray="6" opacity="0.6"/>
+      <circle cx="300" cy="150" r="45" fill="rgba(0, 210, 255, 0.1)" stroke="#00D2FF" stroke-width="3"/>
+      <text x="300" y="158" fill="#00D2FF" font-family="sans-serif" font-size="22" font-weight="bold" text-anchor="middle">IT</text>
+      <text x="300" y="235" fill="#FFFFFF" font-family="sans-serif" font-size="20" font-weight="bold" text-anchor="middle">Web &amp; Mobile Dev</text>
+      <text x="300" y="265" fill="#00D2FF" font-family="sans-serif" font-size="12" font-weight="bold" letter-spacing="2" text-anchor="middle">CODE &amp; ARCHITECTURE</text>
+    </svg>

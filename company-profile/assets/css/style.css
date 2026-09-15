@@ -1,0 +1,243 @@
+:root {
+  /* Brand Tokens */
+  --color-primary: #03AC0E;
+  --color-primary-hover: #00880D;
+  --color-primary-dark: #006E04;
+  --color-mint: #E8F5E9;
+  --color-mint-light: #F1F8E9;
+  
+  /* Neutral Tokens */
+  --color-white: #FFFFFF;
+  --color-bg: #F8F9FA;
+  --color-border: #E2E8F0;
+  --color-border-secondary: #CBD5E1;
+  --color-footer-bg: #1E293B;
+  --color-footer-text: #94A3B8;
+  
+  /* Typography Tokens */
+  --color-text-primary: #212529;
+  --color-text-body: #475569;
+  --color-text-muted: #64748B;
+  
+  /* Typography Families */
+  --font-headline: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  
+  /* Transitions */
+  --transition-fast: all 0.2s ease-in-out;
+}
+
+/* Reset & Base */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headline);
+  color: var(--color-text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Tokopedia-Style Buttons */
+.btn-primary-custom {
+  background-color: var(--color-primary);
+  color: var(--color-white) !important;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 6px;
+  border: 1px solid var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary-custom:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-white) !important;
+  transform: translateY(-1px);
+}
+
+.btn-outline-custom {
+  background-color: var(--color-white);
+  color: var(--color-text-primary) !important;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-outline-custom:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-text-muted);
+  color: var(--color-text-primary) !important;
+  transform: translateY(-1px);
+}
+
+/* Cards Elevation */
+.clean-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.clean-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+/* Badge Mint */
+.badge-mint {
+  background-color: var(--color-mint);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.825rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Interactive Hover Micro-Animations */
+.card-hover-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -4px rgba(3, 172, 14, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* Service Target Highlight Pulse */
+@keyframes highlightTargetPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(3, 172, 14, 0.6);
+    transform: scale(1.02);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(3, 172, 14, 0);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(3, 172, 14, 0);
+    transform: scale(1);
+  }
+}
+
+.service-target-active {
+  animation: highlightTargetPulse 1.8s ease-in-out infinite;
+  border-color: var(--color-primary) !important;
+}
+
+/* Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-secondary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Cyber & Corporate Admin Utilities */
+.btn-cyber {
+  background-color: var(--color-primary);
+  color: #FFFFFF !important;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(3, 172, 14, 0.2);
+  transition: var(--transition-fast);
+}
+.btn-cyber:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(3, 172, 14, 0.3);
+}
+
+.btn-outline-cyber {
+  background-color: #FFFFFF;
+  color: var(--color-primary-dark) !important;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--transition-fast);
+}
+.btn-outline-cyber:hover {
+  background-color: var(--color-mint);
+  color: var(--color-primary-dark) !important;
+  transform: translateY(-1px);
+}
+
+.table-corporate {
+  background: #FFFFFF;
+}
+.table-corporate thead th {
+  background-color: #F8FAFC;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 12px 16px;
+  border-bottom: 1px solid #E2E8F0;
+}
+.table-corporate tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #1E293B;
+  font-size: 0.875rem;
+}
+.table-corporate tbody tr:hover {
+  background-color: #F8FAFC;
+}
