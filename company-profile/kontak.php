@@ -34,17 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_kirim'])) {
     }
 }
 
-// Format nomor WhatsApp otomatis dari data profil perusahaan dengan pesan template siap kirim
-$wa_raw = !empty($profil['telepon']) ? $profil['telepon'] : '081192008800';
-$wa_digits = preg_replace('/[^0-9]/', '', $wa_raw);
-if (str_starts_with($wa_digits, '0')) {
-    $wa_digits = '62' . substr($wa_digits, 1);
-} elseif (!str_starts_with($wa_digits, '62') && strlen($wa_digits) >= 9) {
-    $wa_digits = '62' . $wa_digits;
-}
-if (empty($wa_digits)) {
-    $wa_digits = '6281192008800';
-}
+// Konfigurasi WhatsApp Resmi Perusahaan (Nomor aktif: 0857-9800-2947)
+$wa_display = !empty($profil['telepon']) ? $profil['telepon'] : '0857-9800-2947';
+$wa_digits = '6285798002947';
 // Teks siap kirim langsung agar pengguna/penguji tidak perlu mengetik atau menambahkan apapun
 $wa_prefilled_text = rawurlencode("Halo PT Digital Solusi Nusantara, saya ingin berkonsultasi mengenai solusi dan layanan teknologi informasi untuk perusahaan kami.");
 $wa_link = "https://wa.me/{$wa_digits}?text={$wa_prefilled_text}";
@@ -135,8 +127,8 @@ require_once __DIR__ . '/includes/navbar.php';
                 <div class="space-y-1">
                   <h3 class="font-title-sm text-title-sm text-text-primary font-bold">Telepon &amp; Hotline</h3>
                   <p class="font-body-sm text-body-sm text-text-body">
-                    Pusat: <a class="hover:text-primary-container transition-colors font-medium text-text-primary" href="tel:+622152891000"><?= $profil ? htmlspecialchars($profil['telepon']) : '+62 (21) 5289-8888'; ?></a><br/>
-                    WhatsApp Enterprise: <a class="hover:text-primary-container transition-colors font-medium text-primary-container" href="<?= $wa_link; ?>" rel="noopener noreferrer" target="_blank"><?= !empty($profil['telepon']) ? htmlspecialchars($profil['telepon']) : '+62 811-9200-8800'; ?></a>
+                    Pusat: <a class="hover:text-primary-container transition-colors font-medium text-text-primary" href="tel:+6285798002947"><?= htmlspecialchars($wa_display); ?></a><br/>
+                    WhatsApp Enterprise: <a class="hover:text-primary-container transition-colors font-medium text-primary-container" href="<?= $wa_link; ?>" rel="noopener noreferrer" target="_blank"><?= htmlspecialchars($wa_display); ?></a>
                   </p>
                 </div>
               </div>
