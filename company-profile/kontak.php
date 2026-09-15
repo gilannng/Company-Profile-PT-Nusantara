@@ -8,7 +8,7 @@ $active_page = "kontak";
 $q_profil = mysqli_query($koneksi, "SELECT * FROM profil LIMIT 1");
 $profil = ($q_profil && mysqli_num_rows($q_profil) > 0) ? mysqli_fetch_assoc($q_profil) : null;
 
-// Tangani Pengiriman Form Pesan (Simulasi Pengiriman Valid & Sanitasi Input)
+// Tangani Pengiriman Form Pesan (Simpan ke basis data dan tampilkan notifikasi sukses)
 $success_alert = false;
 $submitted_name = '';
 
@@ -22,10 +22,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_kirim'])) {
     $pesan = clean_input($_POST['pesan'] ?? '');
 
     if (!empty($nama) && !empty($email) && !empty($pesan)) {
+        // Simpan masukan / pesan ke tabel `pesan` di database
+        $stmt = mysqli_prepare($koneksi, "INSERT INTO pesan (nama, email, telepon, perusahaan, layanan, subjek, pesan, status, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?, 'Belum Dibaca', NOW())");
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "sssssss", $nama, $email, $telepon, $perusahaan, $layanan, $subjek, $pesan);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        }
         $success_alert = true;
         $submitted_name = $nama;
     }
 }
+
+// Format nomor WhatsApp otomatis dari data profil perusahaan dengan pesan template siap kirim
+$wa_raw = !empty($profil['telepon']) ? $profil['telepon'] : '081192008800';
+$wa_digits = preg_replace('/[^0-9]/', '', $wa_raw);
+if (str_starts_with($wa_digits, '0')) {
+    $wa_digits = '62' . substr($wa_digits, 1);
+} elseif (!str_starts_with($wa_digits, '62') && strlen($wa_digits) >= 9) {
+    $wa_digits = '62' . $wa_digits;
+}
+if (empty($wa_digits)) {
+    $wa_digits = '6281192008800';
+}
+// Teks siap kirim langsung agar pengguna/penguji tidak perlu mengetik atau menambahkan apapun
+$wa_prefilled_text = rawurlencode("Halo PT Digital Solusi Nusantara, saya ingin berkonsultasi mengenai solusi dan layanan teknologi informasi untuk perusahaan kami.");
+$wa_link = "https://wa.me/{$wa_digits}?text={$wa_prefilled_text}";
 
 // Prefill subjek / layanan jika diarahkan dari tombol layanan / artikel
 $prefill_layanan = isset($_GET['layanan']) ? clean_input($_GET['layanan']) : '';
@@ -114,7 +136,7 @@ require_once __DIR__ . '/includes/navbar.php';
                   <h3 class="font-title-sm text-title-sm text-text-primary font-bold">Telepon &amp; Hotline</h3>
                   <p class="font-body-sm text-body-sm text-text-body">
                     Pusat: <a class="hover:text-primary-container transition-colors font-medium text-text-primary" href="tel:+622152891000"><?= $profil ? htmlspecialchars($profil['telepon']) : '+62 (21) 5289-8888'; ?></a><br/>
-                    WhatsApp Enterprise: <a class="hover:text-primary-container transition-colors font-medium text-primary-container" href="https://wa.me/6281192008800" rel="noopener noreferrer" target="_blank">+62 811-9200-8800</a>
+                    WhatsApp Enterprise: <a class="hover:text-primary-container transition-colors font-medium text-primary-container" href="<?= $wa_link; ?>" rel="noopener noreferrer" target="_blank"><?= !empty($profil['telepon']) ? htmlspecialchars($profil['telepon']) : '+62 811-9200-8800'; ?></a>
                   </p>
                 </div>
               </div>
@@ -198,11 +220,11 @@ require_once __DIR__ . '/includes/navbar.php';
               </div>
               <div>
                 <h4 class="font-title-sm text-title-sm text-text-primary font-bold">Butuh Respons Segera?</h4>
-                <p class="font-body-sm text-body-sm text-text-body">Hubungkan langsung percakapan dengan Helpdesk WhatsApp kami.</p>
+                <p class="font-body-sm text-body-sm text-text-body">Hubungkan langsung percakapan dengan Helpdesk WhatsApp kami (pesan siap kirim).</p>
               </div>
             </div>
-            <a class="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container hover:bg-brand-green-hover text-pure-white font-label-md text-label-md transition-colors shadow-sm font-semibold" href="https://wa.me/6281192008800" rel="noopener noreferrer" target="_blank">
-              <span>Chat WhatsApp</span>
+            <a class="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container hover:bg-brand-green-hover text-pure-white font-label-md text-label-md transition-colors shadow-sm font-semibold" href="<?= $wa_link; ?>" rel="noopener noreferrer" target="_blank">
+              <span>Chat WhatsApp Langsung</span>
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
             </a>
           </div>

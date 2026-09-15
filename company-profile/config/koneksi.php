@@ -105,6 +105,21 @@ if (!$koneksi) {
 // Set karakter encoding ke utf8mb4
 mysqli_set_charset($koneksi, "utf8mb4");
 
+// Inisialisasi Otomatis Tabel Pesan / Kontak Masuk jika belum ada
+mysqli_query($koneksi, "CREATE TABLE IF NOT EXISTS `pesan` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nama` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(150) NOT NULL,
+  `telepon` VARCHAR(50) DEFAULT NULL,
+  `perusahaan` VARCHAR(150) DEFAULT NULL,
+  `layanan` VARCHAR(150) DEFAULT NULL,
+  `subjek` VARCHAR(200) DEFAULT NULL,
+  `pesan` TEXT NOT NULL,
+  `status` VARCHAR(20) NOT NULL DEFAULT 'Belum Dibaca',
+  `tanggal` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
 /**
  * Helper Fungsi Sanitasi Input untuk mencegah SQL Injection & XSS
  */

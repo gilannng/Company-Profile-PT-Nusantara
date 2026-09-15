@@ -11,9 +11,13 @@ require_once __DIR__ . '/includes/sidebar.php';
 $total_produk  = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM produk"));
 $total_artikel = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM artikel"));
 $total_galeri  = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM galeri"));
+$total_pesan   = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM pesan"));
+$unread_pesan  = mysqli_num_rows(mysqli_query($koneksi, "SELECT id FROM pesan WHERE status = 'Belum Dibaca'"));
 
 // Ambil Daftar Layanan untuk Tabel Kelola Cepat
 $q_layanan_table = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC");
+// Ambil 5 Pesan Terkini (Read-Only)
+$q_pesan_recent = mysqli_query($koneksi, "SELECT * FROM pesan ORDER BY id DESC LIMIT 5");
 ?>
 
 <!-- Top Greeting Bar / Welcome Banner -->
@@ -28,7 +32,7 @@ $q_layanan_table = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC"
             </span>
         </div>
         <p class="font-body-md text-text-secondary">
-            Kelola konten website, katalog layanan IT, dan pantau aktivitas sistem PT Digital Solusi Nusantara.
+            Kelola konten website, katalog layanan IT, dan pantau aktivitas masukan klien PT Digital Solusi Nusantara.
         </p>
     </div>
     
@@ -51,70 +55,100 @@ $q_layanan_table = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC"
     </div>
 </div>
 
-<!-- 3 Summary Metric Cards -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- 4 Summary Metric Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
     <!-- Card 1: Total Layanan Aktif -->
-    <div class="bg-surface-container-lowest rounded-lg p-6 shadow-sm flex flex-col justify-between hover:-translate-y-0.5 transition-transform duration-200 border border-subtle-border">
+    <div class="bg-surface-container-lowest rounded-lg p-5 shadow-sm flex flex-col justify-between hover:-translate-y-0.5 transition-transform duration-200 border border-subtle-border">
         <div class="flex items-start justify-between">
             <div>
                 <span class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Total Layanan Aktif</span>
                 <div class="mt-2 font-headline-lg text-headline-lg text-text-primary tracking-tight font-bold"><?= $total_produk; ?> Layanan</div>
             </div>
-            <div class="w-12 h-12 rounded-full bg-pale-mint flex items-center justify-center text-primary shrink-0">
-                <span class="material-symbols-outlined text-[24px]">layers</span>
+            <div class="w-11 h-11 rounded-full bg-pale-mint flex items-center justify-center text-primary shrink-0">
+                <span class="material-symbols-outlined text-[22px]">layers</span>
             </div>
         </div>
-        <div class="mt-5 pt-4 flex items-center justify-between border-t border-subtle-border">
-            <div class="flex items-center gap-1.5 text-primary">
+        <div class="mt-4 pt-3 flex items-center justify-between border-t border-subtle-border">
+            <div class="flex items-center gap-1.5 text-primary text-xs font-semibold">
                 <span class="material-symbols-outlined text-[16px]">trending_up</span>
-                <span class="font-label-sm text-label-sm font-semibold">Katalog terpublikasi</span>
+                <span>Katalog terpublikasi</span>
             </div>
-            <a href="produk/index.php" class="font-label-sm text-label-sm text-primary hover:text-brand-green-hover font-semibold inline-flex items-center gap-1">
-                Kelola <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <a href="produk/index.php" class="text-xs text-primary hover:text-brand-green-hover font-semibold inline-flex items-center gap-1">
+                Kelola <span class="material-symbols-outlined text-xs">arrow_forward</span>
             </a>
         </div>
     </div>
 
     <!-- Card 2: Total Artikel & Berita -->
-    <div class="bg-surface-container-lowest rounded-lg p-6 shadow-sm flex flex-col justify-between hover:-translate-y-0.5 transition-transform duration-200 border border-subtle-border">
+    <div class="bg-surface-container-lowest rounded-lg p-5 shadow-sm flex flex-col justify-between hover:-translate-y-0.5 transition-transform duration-200 border border-subtle-border">
         <div class="flex items-start justify-between">
             <div>
                 <span class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Artikel &amp; Edukasi</span>
                 <div class="mt-2 font-headline-lg text-headline-lg text-text-primary tracking-tight font-bold"><?= $total_artikel; ?> Artikel</div>
             </div>
-            <div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary shrink-0">
-                <span class="material-symbols-outlined text-[24px]">newspaper</span>
+            <div class="w-11 h-11 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary shrink-0">
+                <span class="material-symbols-outlined text-[22px]">newspaper</span>
             </div>
         </div>
-        <div class="mt-5 pt-4 flex items-center justify-between border-t border-subtle-border">
-            <div class="flex items-center gap-1.5 text-tertiary">
+        <div class="mt-4 pt-3 flex items-center justify-between border-t border-subtle-border">
+            <div class="flex items-center gap-1.5 text-tertiary text-xs font-semibold">
                 <span class="material-symbols-outlined text-[16px]">schedule</span>
-                <span class="font-label-sm text-label-sm font-semibold">Wawasan TI terkini</span>
+                <span>Wawasan TI terkini</span>
             </div>
-            <a href="artikel/index.php" class="font-label-sm text-label-sm text-primary hover:text-brand-green-hover font-semibold inline-flex items-center gap-1">
-                Kelola <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <a href="artikel/index.php" class="text-xs text-primary hover:text-brand-green-hover font-semibold inline-flex items-center gap-1">
+                Kelola <span class="material-symbols-outlined text-xs">arrow_forward</span>
             </a>
         </div>
     </div>
 
     <!-- Card 3: Dokumentasi & Galeri -->
-    <div class="bg-surface-container-lowest rounded-lg p-6 shadow-sm flex flex-col justify-between hover:-translate-y-0.5 transition-transform duration-200 border border-subtle-border">
+    <div class="bg-surface-container-lowest rounded-lg p-5 shadow-sm flex flex-col justify-between hover:-translate-y-0.5 transition-transform duration-200 border border-subtle-border">
         <div class="flex items-start justify-between">
             <div>
                 <span class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Dokumentasi Galeri</span>
                 <div class="mt-2 font-headline-lg text-headline-lg text-text-primary tracking-tight font-bold"><?= $total_galeri; ?> Foto</div>
             </div>
-            <div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary shrink-0">
-                <span class="material-symbols-outlined text-[24px]">photo_library</span>
+            <div class="w-11 h-11 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary shrink-0">
+                <span class="material-symbols-outlined text-[22px]">photo_library</span>
             </div>
         </div>
-        <div class="mt-5 pt-4 flex items-center justify-between border-t border-subtle-border">
-            <div class="flex items-center gap-1.5 text-text-secondary">
+        <div class="mt-4 pt-3 flex items-center justify-between border-t border-subtle-border">
+            <div class="flex items-center gap-1.5 text-text-secondary text-xs font-semibold">
                 <span class="material-symbols-outlined text-[16px]">verified</span>
-                <span class="font-label-sm text-label-sm font-semibold">Arsip foto terverifikasi</span>
+                <span>Arsip foto terverifikasi</span>
             </div>
-            <a href="galeri/index.php" class="font-label-sm text-label-sm text-primary hover:text-brand-green-hover font-semibold inline-flex items-center gap-1">
-                Kelola <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <a href="galeri/index.php" class="text-xs text-primary hover:text-brand-green-hover font-semibold inline-flex items-center gap-1">
+                Kelola <span class="material-symbols-outlined text-xs">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Card 4: Masukan & Pesan Klien (Read-Only) -->
+    <div class="bg-surface-container-lowest rounded-lg p-5 shadow-sm flex flex-col justify-between hover:-translate-y-0.5 transition-transform duration-200 border border-subtle-border">
+        <div class="flex items-start justify-between">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Masukan &amp; Pesan</span>
+                    <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-surface-container text-text-secondary">Read-Only</span>
+                </div>
+                <div class="mt-2 font-headline-lg text-headline-lg text-text-primary tracking-tight font-bold"><?= $total_pesan; ?> Pesan</div>
+            </div>
+            <div class="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                <span class="material-symbols-outlined text-[22px]">inbox</span>
+            </div>
+        </div>
+        <div class="mt-4 pt-3 flex items-center justify-between border-t border-subtle-border">
+            <div class="flex items-center gap-1.5 text-xs font-semibold <?= ($unread_pesan > 0) ? 'text-amber-700' : 'text-text-secondary'; ?>">
+                <?php if ($unread_pesan > 0): ?>
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    <span><?= $unread_pesan; ?> Belum Dibaca</span>
+                <?php else: ?>
+                    <span class="material-symbols-outlined text-[16px] text-primary-container">done_all</span>
+                    <span>Semua terbaca</span>
+                <?php endif; ?>
+            </div>
+            <a href="pesan/index.php" class="text-xs text-primary hover:text-brand-green-hover font-semibold inline-flex items-center gap-1">
+                Lihat Inbox <span class="material-symbols-outlined text-xs">arrow_forward</span>
             </a>
         </div>
     </div>
@@ -265,7 +299,96 @@ $q_layanan_table = mysqli_query($koneksi, "SELECT * FROM produk ORDER BY id ASC"
                 <span>Kelola Semua di Modul Produk</span>
                 <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </a>
+    </div>
+</div>
+
+<!-- Recent Messages & Inquiries Section (Read-Only) -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden flex flex-col border border-subtle-border">
+    <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-subtle-border bg-surface-bright">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                <span class="material-symbols-outlined text-[22px]">inbox</span>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h2 class="font-headline-sm text-title-md text-text-primary tracking-tight font-bold">Masukan &amp; Pesan Klien Terbaru</h2>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-pale-mint text-primary-container border border-primary-container/20">
+                        Read-Only
+                    </span>
+                </div>
+                <p class="font-body-sm text-body-sm text-text-secondary">Pesan dan konsultasi yang baru saja dikirimkan pengunjung dari halaman Kontak Kami.</p>
+            </div>
         </div>
+        <a href="pesan/index.php" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-text-primary font-label-md text-label-md font-semibold transition-all border border-subtle-border shrink-0 shadow-xs">
+            <span>Buka Seluruh Pesan Masuk</span>
+            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+    </div>
+
+    <div class="w-full overflow-x-auto">
+        <table class="w-full text-left font-body-sm text-body-sm">
+            <thead class="bg-surface-container-low text-text-secondary font-label-sm text-label-sm uppercase tracking-wider border-b border-subtle-border">
+                <tr>
+                    <th class="py-3 px-6 font-semibold min-w-[200px]">Pengirim</th>
+                    <th class="py-3 px-4 font-semibold min-w-[150px]">Perusahaan</th>
+                    <th class="py-3 px-4 font-semibold min-w-[220px]">Subjek</th>
+                    <th class="py-3 px-4 font-semibold w-36">Waktu</th>
+                    <th class="py-3 px-4 font-semibold w-28 text-center">Status</th>
+                    <th class="py-3 px-6 font-semibold text-right w-24">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-subtle-border text-text-primary">
+                <?php 
+                if ($q_pesan_recent && mysqli_num_rows($q_pesan_recent) > 0):
+                    while ($m = mysqli_fetch_assoc($q_pesan_recent)):
+                        $is_un = ($m['status'] === 'Belum Dibaca');
+                        $tgl_m = !empty($m['tanggal']) ? date('d M, H:i', strtotime($m['tanggal'])) : '-';
+                ?>
+                <tr class="hover:bg-surface-container-low/50 transition-colors <?= $is_un ? 'bg-pale-mint/20 font-medium' : ''; ?>">
+                    <td class="py-3.5 px-6">
+                        <div class="font-semibold text-text-primary"><?= htmlspecialchars($m['nama']); ?></div>
+                        <div class="text-xs text-text-secondary"><?= htmlspecialchars($m['email']); ?></div>
+                    </td>
+                    <td class="py-3.5 px-4 text-text-secondary">
+                        <?= !empty($m['perusahaan']) ? htmlspecialchars($m['perusahaan']) : '<span class="italic text-text-secondary/60">Perorangan</span>'; ?>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <div class="text-text-primary line-clamp-1 font-medium"><?= htmlspecialchars($m['subjek'] ?: 'Tanpa Subjek'); ?></div>
+                        <div class="text-xs text-text-secondary line-clamp-1"><?= htmlspecialchars(substr($m['pesan'], 0, 80)); ?></div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-text-secondary whitespace-nowrap">
+                        <?= $tgl_m; ?> WIB
+                    </td>
+                    <td class="py-3.5 px-4 text-center whitespace-nowrap">
+                        <?php if ($is_un): ?>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                            Baru
+                        </span>
+                        <?php else: ?>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-surface-container text-text-secondary">
+                            Dibaca
+                        </span>
+                        <?php endif; ?>
+                    </td>
+                    <td class="py-3.5 px-6 text-right whitespace-nowrap">
+                        <a href="pesan/index.php" class="p-1.5 rounded-lg bg-surface-container-low hover:bg-primary-container hover:text-pure-white text-primary-container inline-flex items-center justify-center transition-colors shadow-xs" title="Buka di Kotak Masuk">
+                            <span class="material-symbols-outlined text-[18px]">visibility</span>
+                        </a>
+                    </td>
+                </tr>
+                <?php 
+                    endwhile;
+                else:
+                ?>
+                <tr>
+                    <td colspan="6" class="py-8 text-center text-text-secondary">
+                        Belum ada pesan atau masukan baru dari formulir Kontak Kami.
+                    </td>
+                </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 

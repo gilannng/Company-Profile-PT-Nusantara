@@ -4,6 +4,16 @@ if (!isset($active_menu)) {
 }
 
 $admin_nama = $_SESSION['admin_nama'] ?? 'Administrator';
+
+// Hitung jumlah pesan yang belum dibaca
+$unread_sidebar_count = 0;
+if (isset($koneksi) && $koneksi) {
+    $q_unread_sb = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM pesan WHERE status = 'Belum Dibaca'");
+    if ($q_unread_sb) {
+        $r_unread_sb = mysqli_fetch_assoc($q_unread_sb);
+        $unread_sidebar_count = (int)($r_unread_sb['total'] ?? 0);
+    }
+}
 ?>
 
 <!-- Mobile Backdrop Overlay -->
@@ -61,6 +71,19 @@ $admin_nama = $_SESSION['admin_nama'] ?? 'Administrator';
                class="flex items-center gap-3 px-3 py-2.5 transition-all <?= ($active_menu === 'galeri') ? 'bg-pale-mint text-primary font-title-sm rounded-lg shadow-sm font-semibold' : 'rounded-lg text-text-secondary hover:bg-surface-container-low hover:text-text-primary'; ?>">
                 <span class="material-symbols-outlined text-[20px]">photo_library</span>
                 <span class="font-label-md text-label-md">Galeri Foto</span>
+            </a>
+
+            <a href="<?= $admin_root; ?>pesan/index.php" 
+               class="flex items-center justify-between px-3 py-2.5 transition-all <?= ($active_menu === 'pesan') ? 'bg-pale-mint text-primary font-title-sm rounded-lg shadow-sm font-semibold' : 'rounded-lg text-text-secondary hover:bg-surface-container-low hover:text-text-primary'; ?>">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-[20px]">inbox</span>
+                    <span class="font-label-md text-label-md">Pesan &amp; Masukan</span>
+                </div>
+                <?php if ($unread_sidebar_count > 0): ?>
+                    <span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-primary-container text-pure-white shadow-xs">
+                        <?= $unread_sidebar_count; ?>
+                    </span>
+                <?php endif; ?>
             </a>
         </nav>
     </div>
