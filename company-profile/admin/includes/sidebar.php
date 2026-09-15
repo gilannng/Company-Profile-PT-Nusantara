@@ -151,7 +151,7 @@ if (isset($koneksi) && $koneksi) {
         </div>
     </header>
 
-    <!-- Main Content Body -->
-    <main class="w-full pt-20 sm:pt-24 bg-background min-h-screen px-4 sm:px-8 py-4 sm:py-6 flex-1">
+    <!-- Main Content Body (Cukup padding-top agar tidak tertutup header fixed) -->
+    <main class="w-full bg-background min-h-screen px-4 sm:px-8 pb-16 flex-1 pt-28 sm:pt-32" style="padding-top: max(6.75rem, 108px);">
         <div class="flex flex-col w-full gap-5 sm:gap-6 pb-12 max-w-full">
             <?php show_flash_message(); ?>

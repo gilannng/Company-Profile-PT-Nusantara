@@ -5,8 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     // Tentukan URL redirect login berdasarkan kedalaman direktori pemanggil
-    $current_dir = basename(getcwd());
-    $redirect_url = ($current_dir === 'admin') ? 'login.php' : '../login.php';
+    $is_sub = (basename(dirname($_SERVER['PHP_SELF'] ?? '')) !== 'admin');
+    $redirect_url = $is_sub ? '../login.php' : 'login.php';
     
     $_SESSION['flash_message'] = [
         'type' => 'warning',

@@ -47,13 +47,10 @@ if (!isset($active_page)) {
             </a>
         </nav>
 
-        <!-- Right: Login Admin & Mobile Toggle -->
+        <!-- Right: CTA Konsultasi & Mobile Toggle (Login Admin tersembunyi dari publik) -->
         <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-            <a href="admin/login.php" class="hidden sm:inline-flex items-center justify-center bg-pure-white border border-border-secondary text-text-primary font-label-md text-label-md px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-[6px] hover:bg-surface-container-low hover:border-footer-text transition-all">
-                Login Admin
-            </a>
-            <a href="admin/login.php" class="hidden sm:flex w-8 h-8 rounded-full bg-primary items-center justify-center shrink-0 hover:bg-brand-green-hover transition-colors" title="Portal Admin">
-                <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            <a href="kontak.php" class="hidden sm:inline-flex items-center justify-center bg-primary-container hover:bg-brand-green-hover text-pure-white font-label-md text-label-md px-4 py-2 rounded-[6px] shadow-sm font-semibold transition-all">
+                <span>Konsultasi</span>
             </a>
             
             <!-- Mobile Menu Button -->
@@ -85,8 +82,8 @@ if (!isset($active_page)) {
                 Kontak
             </a>
             <div class="pt-2 mt-2 border-t border-subtle-border">
-                <a class="inline-flex w-full items-center justify-center bg-pure-white border border-border-secondary text-text-primary font-label-md py-2.5 rounded-[6px] hover:bg-surface-container-low" href="admin/login.php">
-                    <span class="material-symbols-outlined text-[18px] mr-1.5">lock</span> Login Admin
+                <a class="inline-flex w-full items-center justify-center bg-primary-container hover:bg-brand-green-hover text-pure-white font-label-md py-2.5 rounded-[6px] font-semibold transition-colors" href="kontak.php">
+                    <span>Hubungi Tim Ahli</span>
                 </a>
             </div>
         </nav>
