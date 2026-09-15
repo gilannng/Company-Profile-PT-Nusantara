@@ -60,10 +60,86 @@ a:hover {
   color: var(--color-primary-hover);
 }
 
-/* Tokopedia-Style Buttons */
+/* ==========================================================================
+   SISTEM ANIMASI TOMBOL & PERLINDUNGAN TEKS (ANTI-OVERLAP)
+   Berlaku untuk seluruh tombol (Public & Admin):
+   1. Perubahan warna background & shadow berjalan mulus dengan CSS transition.
+   2. Animasi hover micro-interaction (lift halus) tanpa mengubah letak/menutup teks.
+   3. Teks & ikon SELALU di layer terdepan (z-index: 2) sehingga tidak bisa tertutup animasi.
+   ========================================================================== */
+
+/* 1. Aturan Dasar Semua Tombol & Elemen Tombol */
+button,
+.btn,
+.btn-primary-custom,
+.btn-outline-custom,
+.btn-cyber,
+.btn-outline-cyber,
+[class*="bg-primary-container"],
+[class*="category-btn"],
+[class*="filter-tab-btn"] {
+  position: relative !important;
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* 2. Perlindungan Teks & Ikon (Selalu di Atas / Layer Depan) */
+button > *,
+.btn > *,
+.btn-primary-custom > *,
+.btn-outline-custom > *,
+.btn-cyber > *,
+.btn-outline-cyber > *,
+[class*="bg-primary-container"] > *,
+[class*="category-btn"] > *,
+[class*="filter-tab-btn"] > * {
+  position: relative !important;
+  z-index: 2 !important;
+  pointer-events: auto;
+}
+
+/* 3. Perlindungan jika ada pseudo-element animasi background (::before / ::after) */
+button::before, button::after,
+.btn::before, .btn::after,
+.btn-primary-custom::before, .btn-primary-custom::after,
+.btn-outline-custom::before, .btn-outline-custom::after,
+.btn-cyber::before, .btn-cyber::after,
+.btn-outline-cyber::before, .btn-outline-cyber::after,
+[class*="bg-primary-container"]::before, [class*="bg-primary-container"]::after {
+  position: absolute;
+  z-index: 1 !important;
+  pointer-events: none;
+}
+
+/* 4. Efek Micro-Interaction Hover: Mengangkat sedikit tanpa menutupi konten */
+button:hover:not(:disabled),
+.btn:hover:not(:disabled),
+.btn-primary-custom:hover,
+.btn-outline-custom:hover,
+.btn-cyber:hover,
+.btn-outline-cyber:hover,
+[class*="bg-primary-container"]:hover {
+  transform: translateY(-1.5px);
+}
+
+/* 5. Efek Klik Ditekan (Active State) */
+button:active:not(:disabled),
+.btn:active:not(:disabled),
+.btn-primary-custom:active,
+.btn-outline-custom:active,
+.btn-cyber:active,
+.btn-outline-cyber:active,
+[class*="bg-primary-container"]:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 6. Detail Styling Tombol Utama (Primary) */
 .btn-primary-custom {
   background-color: var(--color-primary);
-  color: var(--color-white) !important;
+  color: #FFFFFF !important;
   font-weight: 600;
   padding: 10px 22px;
   border-radius: 6px;
@@ -72,17 +148,17 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: var(--transition-fast);
   box-shadow: var(--shadow-sm);
 }
 
 .btn-primary-custom:hover {
   background-color: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
-  color: var(--color-white) !important;
-  transform: translateY(-1px);
+  color: #FFFFFF !important;
+  box-shadow: var(--shadow-md);
 }
 
+/* 7. Detail Styling Tombol Garis Tepi (Outline) */
 .btn-outline-custom {
   background-color: var(--color-white);
   color: var(--color-text-primary) !important;
@@ -94,7 +170,6 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: var(--transition-fast);
   box-shadow: var(--shadow-sm);
 }
 
@@ -102,7 +177,7 @@ a:hover {
   background-color: var(--color-bg);
   border-color: var(--color-text-muted);
   color: var(--color-text-primary) !important;
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 /* Cards Elevation */

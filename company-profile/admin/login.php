@@ -217,6 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       border-color: var(--dsn-green-hover);
       color: #FFFFFF;
       box-shadow: 0 4px 10px rgba(0, 136, 13, 0.3);
+      transform: translateY(-1.5px);
     }
 
     .back-home-link {
